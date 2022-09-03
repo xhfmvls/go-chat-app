@@ -10,6 +10,7 @@ func Content(w http.ResponseWriter, r *http.Request) {
 	f, err := os.ReadFile("index.html")
 
 	if err != nil {
+		fmt.Println("File not Found")
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
