@@ -1,8 +1,10 @@
 package controllers
 
 import (
-	"strings"
 	"log"
+	"strings"
+
+	"github.com/xhfmvls/go-chat-app/pkg/models"
 )
 
 type SocketPayload struct {
@@ -43,6 +45,7 @@ func IoHandle(currConn *WebSocketConnection, conns []*WebSocketConnection) {
 			continue
 		}
 
+		models.InsertNewChat(currConn.Username, payload.Message)
 		BroadcastMessage(currConn, ChatMessage, payload.Message)
 	}
 }
