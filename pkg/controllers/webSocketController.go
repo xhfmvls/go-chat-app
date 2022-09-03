@@ -2,7 +2,7 @@ package controllers
 
 import(
 	"net/http"
-
+	"fmt"
 	"github.com/gorilla/websocket"
 )
 
@@ -20,15 +20,15 @@ var Upgrader = websocket.Upgrader{
 var NewConn WebSocketConnection
 
 func WebSocket(w http.ResponseWriter, r *http.Request) {
-	gorillaConn, err := Upgrader.Upgrade(w, r, w.Header())
+	gorillaConn, err := websocket.Upgrade(w, r, w.Header(), 1024, 1024)
 
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		fmt.Println("Connection Error")
 		return
 	}
 
 	username := r.URL.Query().Get("username")
-	NewConn = WebSocketConnection{Conn: gorillaConn, Username: username}
+	NewConn := WebSocketConnection{Conn: gorillaConn, Username: username}
 	Conns = append(Conns, &NewConn)
 
 	go IoHandle(&NewConn, Conns)

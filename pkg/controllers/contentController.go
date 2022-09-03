@@ -11,7 +11,6 @@ func Content(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		fmt.Println("File not Found")
-		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
